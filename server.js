@@ -2,6 +2,11 @@ const cookieParser = require('cookie-parser');
 const express = require('express');
 const app = express();
 
+// Google Auth
+const { OAuth2Client } = require('google-auth-library');
+const CLIENT_ID = '692461028963-u7nr33cbuuj79apd9194nu9pc13iqlio.apps.googleusercontent.com';
+const client = new OAuth2Client(CLIENT_ID);
+
 const PORT = process.env.PORT || 5000;
 
 // Middleware
@@ -20,6 +25,13 @@ app.get('/', (req, res) => {
 
 app.get('/login', (req, res) => {
   res.render('login');
+})
+
+// line 14-23 in login.ejs
+app.post('/login', (req, res) => {
+  let token = req.body.token;
+
+  console.log(token);
 })
 
 app.listen(PORT, () => {
