@@ -52,18 +52,19 @@ app.post('/login', (req, res) => {
     catch(console.error);
 })
 
-app.get('/profile', (req, res) => {
+app.get('/dashboard', checkAuthenticated, (req, res) => {
   let user = req.user;
-res.render('profile', { user });
+  // passing the user object to the profile.ejs to render 
+res.render('dashboard', { user });
+})
+
+app.get('/protectedroute', checkAuthenticated, (req, res) => {
+  res.render('protectedroute');
 })
 
 app.get('/logout', (req, res) => {
   res.clearCookie('session-token');
   res.redirect('/login');
-})
-
-app.get('/protectedroute', (req, res) => {
-  res.render('protectedroute.ejs');
 })
 
 function checkAuthenticated(req, res, next){
