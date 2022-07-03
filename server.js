@@ -44,7 +44,28 @@ app.post('/login', (req, res) => {
     // If request specified a G Suite domain:
     // const domain = payload['hd'];
   }
+  verify()
+    .then(() => {
+      res.cookie('session-token', token);
+      res.send('success');
+    }).
+    catch(console.error);
 })
+
+app.get('/profile', (req, res) => {
+  let user = req.user;
+res.render('profile', { user });
+})
+
+app.get('/logout', (req, res) => {
+  res.clearCookie('session-token');
+  res.redirect('/login');
+})
+
+app.get('/protectedroute', (req, res) => {
+  res.render('protectedroute.ejs');
+})
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
