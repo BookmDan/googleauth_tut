@@ -31,7 +31,19 @@ app.get('/login', (req, res) => {
 app.post('/login', (req, res) => {
   let token = req.body.token;
 
-  console.log(token);
+  //console.log(token);
+  async function verify() {
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: CLIENT_ID,  
+    });
+    const payload = ticket.getPayload();
+    //for database stuff
+    const userid = payload['sub'];
+    console.log(payload)
+    // If request specified a G Suite domain:
+    // const domain = payload['hd'];
+  }
 })
 
 app.listen(PORT, () => {
